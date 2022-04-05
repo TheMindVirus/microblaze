@@ -1,0 +1,30 @@
+from pynq.overlays.base import BaseOverlay
+from pynq.lib.rpi import Rpi
+
+"""
+pinout = \
+{
+    "ip_name": "mb_bram_ctrl_1", # These blocks don't exist
+    "rst_name": "mb_reset_1",
+    "intr_pin_name": "iop1/dff_en_reset_0/q",
+    "intr_ack_name": "mb_1_intr_ack",
+}
+"""
+
+pinout = \
+{
+    "ip_name": base.RPI["ip_name"] # "iop_rpi/mb_bram_ctrl"
+    "rst_name": base.RPI["rst_name"], # "mb_iop_rpi_reset"
+    "intr_pin_name": base.RPI["intr_pin_name"], # "iop_rpi/dff_en_reset_vector_0/q"
+    "intr_ack_name": "base.RPI["intr_ack_name"], # "mb_iop_rpi_intr_ack"
+}
+
+program = "/home/xilinx/microblaze/dummy/dummy.elf"
+
+def main():
+    base = BaseOverlay("base.bit")
+    base.select_rpi() # Switch Raspberry Pi Microblaze to use GPIO pins instead of PMOD pins
+    pi = Rpi(pinout, program)
+
+if __name__ == "__main__":
+   main()
