@@ -1,3 +1,7 @@
+//#include "xparameters.h"
+//#include "xil_types.h"
+//#include "xil_io.h"
+
 #define TRUE                    1
 #define FALSE                   0
 
@@ -16,8 +20,8 @@
 #define MAILBOX_RPIDATA         POINTER(MEMORY_RPIDATA)
 #define MAILBOX_COMMAND         POINTER(MEMORY_COMMAND)
 
-#define MAILBOX_COMMAND_READ    0
-#define MAILBOX_COMMAND_WRITE   1
+#define MAILBOX_COMMAND_WRITE   0
+#define MAILBOX_COMMAND_READ    1
 #define MAILBOX_COMMAND_IDLE    2
 
 ENTRY
@@ -34,7 +38,9 @@ ENTRY
             ELSE IF (MAILBOX_COMMAND == MAILBOX_COMMAND_WRITE) // Python Write Command
             {
                  POINTER(MAILBOX_ADDRESS) = MAILBOX_RPIDATA;
+                 MAILBOX_RPIDATA = FALSE;
             }
+            MAILBOX_ADDRESS = FALSE;
         }
         MAILBOX_COMMAND = MAILBOX_COMMAND_IDLE;
     }
